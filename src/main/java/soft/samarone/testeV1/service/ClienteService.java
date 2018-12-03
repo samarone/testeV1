@@ -40,6 +40,9 @@ public class ClienteService {
 	
     @Value("${ip.client.fixed:8.8.8.8}")
     private String ipClientFixed;
+    
+    @Value("${ip.loopback.fixed:127.0.0.1}")
+    private String ipLoopback;
 	
 	public Cliente save(@Valid Cliente cliente) {
 		
@@ -48,7 +51,7 @@ public class ClienteService {
 
 		String ip = request.getRemoteAddr();
 		
-		if (LOOPBACK_IP.equals(ip)) {
+		if (ipLoopback.equals(ip)) {
 			ip = ipClientFixed;
 		}
 		

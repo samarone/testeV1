@@ -26,11 +26,11 @@ public class PrevisaoService {
 	@Retryable(backoff = @Backoff(delay = 3000, multiplier = 2, maxDelay = 9000), maxAttempts = 10)
 	public void handleCliente(Cliente cliente, Function<Cliente, Cliente> function) {
 
-		LOG.info("O serviço de previsão de tempo será consultado para o Ip: {}", cliente.getIp());
-
 		MetaweatherClient client = new MetaweatherClient();
 
 		String geoLocalizacao = cliente.getGeoLocalizacao();
+		
+		LOG.info("O serviço de previsão de tempo será consultado para o georef: {}", geoLocalizacao);
 
 		if (GEO_DEFAULT.equals(geoLocalizacao)) {
 			LOG.warn("Geolocalização ainda não foi preenchida, abortando...");
