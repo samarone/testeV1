@@ -29,7 +29,6 @@ public class Cliente implements Serializable {
 	private String nome;
 
 	@NotNull
-//	@Size(max = 3)
 	@Column(name = "NR_IDADE", length = 3, nullable = false)
 	private Integer idade;
 
@@ -39,12 +38,10 @@ public class Cliente implements Serializable {
 	private String ip;
 
 	@NotNull
-//	@Size(max = 3)
 	@Column(name = "NM_GEOLOCALIZACAO", length = 256, nullable = false)
 	private String geoLocalizacao;
 
 	@NotNull
-//	@Size(max = 3)
 	@Column(name = "NR_TEMP_MIN", length = 3, nullable = false)
 	private Double tempMin;
 

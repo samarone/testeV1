@@ -1,16 +1,25 @@
 package soft.samarone.testeV1.service;
 
+import static soft.samarone.testeV1.Constants.GEO_DEFAULT;
+import static soft.samarone.testeV1.Constants.LOOPBACK_IP;
+import static soft.samarone.testeV1.Constants.TEMP_MAX_DEFAULT;
+import static soft.samarone.testeV1.Constants.TEMP_MIN_DEFAULT;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import soft.samarone.testeV1.domain.Cliente;
 import soft.samarone.testeV1.repository.ClienteRepository;
@@ -19,13 +28,6 @@ import soft.samarone.testeV1.repository.ClienteRepository;
 public class ClienteService {
 	
 	private final Logger LOG = LoggerFactory.getLogger(ClienteService.class);
-
-	private static final String GEO_DEFAULT = "0,0";
-
-	private static final double TEMP_MAX_DEFAULT = 0.0;
-
-	private static final double TEMP_MIN_DEFAULT = 0.0;
-
 
 	@Autowired
 	private ClienteRepository clienteRepository;
@@ -36,19 +38,32 @@ public class ClienteService {
 	@Autowired
 	private PrevisaoService previsaoService;
 	
+    @Value("${ip.client.fixed:8.8.8.8}")
+    private String ipClientFixed;
+	
 	public Cliente save(@Valid Cliente cliente) {
+		
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+				.getRequest();
+
+		String ip = request.getRemoteAddr();
+		
+		if (LOOPBACK_IP.equals(ip)) {
+			ip = ipClientFixed;
+		}
+		
+		cliente.setIp(ip);
 		
 		cliente.setGeoLocalizacao(GEO_DEFAULT);
 		cliente.setTempMin(TEMP_MIN_DEFAULT);
 		cliente.setTempMax(TEMP_MAX_DEFAULT);
-		
-		cliente = geoService.handleCliente(cliente);
-		cliente = previsaoService.handleCliente(cliente);
-		
 		cliente.setCriadoEm(LocalDateTime.now());
-
+		
 		cliente = clienteRepository.save(cliente);
 		LOG.info("Cliente {} salvo com sucesso!");
+		
+		geoService.handleCliente(cliente, clienteRepository::save);
+		previsaoService.handleCliente(cliente, clienteRepository::save);
 		
 		return cliente;
 	}
