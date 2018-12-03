@@ -60,7 +60,7 @@ public class ClienteService {
 		cliente.setCriadoEm(LocalDateTime.now());
 		
 		cliente = clienteRepository.save(cliente);
-		LOG.info("Cliente {} salvo com sucesso!");
+		LOG.info("Cliente {} salvo com sucesso!", cliente);
 		
 		geoService.handleCliente(cliente, clienteRepository::save);
 		previsaoService.handleCliente(cliente, clienteRepository::save);

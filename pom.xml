@@ -7,7 +7,7 @@
 	<groupId>soft.samarone</groupId>
 	<artifactId>testeV1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>testeV1</name>
 	<description>Demo project for Plat PlatCorp V1 </description>
