@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import soft.samarone.testeV1.domain.Cliente;
 import soft.samarone.testeV1.service.ClienteService;
+import soft.samarone.testeV1.web.rest.dto.ClienteDTO;
 import soft.samarone.testeV1.web.rest.util.HeaderUtil;
 import soft.samarone.testeV1.web.rest.util.PaginationUtil;
 import soft.samarone.testeV1.web.rest.util.ResponseUtil;
@@ -41,22 +42,33 @@ public class ClienteController {
 	private ClienteService clienteService;
 
 	@PostMapping("/clientes")
-	public ResponseEntity<Cliente> criaCliente(@Valid @RequestBody Cliente novoCliente) throws URISyntaxException {
-		LOG.info("REST request para salvar Cliente : {}", novoCliente);
+	public ResponseEntity<ClienteDTO> criaCliente(@Valid @RequestBody ClienteDTO novoClienteDTO)
+			throws URISyntaxException {
+		LOG.info("REST request para salvar Cliente : {}", novoClienteDTO);
 
-		Cliente result = clienteService.save(novoCliente);
+		Cliente cliente = convertFrom(novoClienteDTO);
 
-		return ResponseEntity.created(new URI("/api/clientes/" + result.getId()))
-				.headers(HeaderUtil.createEntityCreationAlert("CLIENTE", result.getId().toString())).body(result);
+		Cliente resultEntity = clienteService.save(cliente);
+
+		ClienteDTO resultDTO = convertFrom(resultEntity);
+
+		return ResponseEntity.created(new URI("/api/clientes/" + resultDTO.getId()))
+				.headers(HeaderUtil.createEntityCreationAlert("CLIENTE", resultDTO.getId().toString())).body(resultDTO);
 	}
 
 	@PutMapping("/clientes")
-	public ResponseEntity<Cliente> atualizaCliente(@Valid @RequestBody Cliente cliente) throws URISyntaxException {
-		LOG.info("REST request para Atualizar Cliente : {}", cliente);
+	public ResponseEntity<ClienteDTO> atualizaCliente(@Valid @RequestBody ClienteDTO alteradoClienteDTO)
+			throws URISyntaxException {
+		LOG.info("REST request para Atualizar Cliente : {}", alteradoClienteDTO);
+
+		Cliente cliente = convertFrom(alteradoClienteDTO);
 
 		Optional<Cliente> result = clienteService.update(cliente);
-		return ResponseUtil.wrapOrNotFound(result,
-				HeaderUtil.createEntityUpdateAlert("CLIENTE", cliente.getId().toString()));
+
+		Optional<ClienteDTO> resultDTO = convertFrom(result);
+
+		return ResponseUtil.wrapOrNotFound(resultDTO,
+				HeaderUtil.createEntityUpdateAlert("CLIENTE", alteradoClienteDTO.getId().toString()));
 	}
 
 	@GetMapping("/clientes")
@@ -69,18 +81,52 @@ public class ClienteController {
 	}
 
 	@GetMapping("/clientes/{id}")
-	public ResponseEntity<Cliente> recuperaCliente(@PathVariable Long id) {
+	public ResponseEntity<ClienteDTO> recuperaCliente(@PathVariable Long id) {
 		LOG.info("REST request que recupera Cliente de ID: {}", id);
-		Optional<Cliente> cliente = clienteService.findById(id);
-		return ResponseUtil.wrapOrNotFound(cliente);
+		Optional<Cliente> result = clienteService.findById(id);
+		
+		Optional<ClienteDTO> resultDTO = convertFrom(result);
+		
+		return ResponseUtil.wrapOrNotFound(resultDTO);
 	}
 
 	@DeleteMapping("/clientes/{id}")
-	public ResponseEntity<Cliente> removeCliente(@PathVariable Long id) {
+	public ResponseEntity<ClienteDTO> removeCliente(@PathVariable Long id) {
 		LOG.info("REST request que deleta Cliente de ID: {}", id);
 		Optional<Cliente> result = clienteService.delete(id);
-		return ResponseUtil.wrapOrNotFound(result,
-				HeaderUtil.createEntityUpdateAlert("CLIENTE", id.toString()));
+		
+		Optional<ClienteDTO> resultDTO = convertFrom(result);
+		
+		return ResponseUtil.wrapOrNotFound(resultDTO, HeaderUtil.createEntityUpdateAlert("CLIENTE", id.toString()));
+	}
+
+	
+	// UTIL
+	private ClienteDTO convertFrom(Cliente cliente) {
+		
+		ClienteDTO clienteDTO = new ClienteDTO();
+		clienteDTO.setId(cliente.getId());
+		clienteDTO.setNome(cliente.getNome());
+		clienteDTO.setIdade(cliente.getIdade());
+		return clienteDTO;
+	}
+
+	private Cliente convertFrom(ClienteDTO clienteDTO) {
+		
+		Cliente cliente = new Cliente();
+		cliente.setId(clienteDTO.getId());
+		cliente.setNome(clienteDTO.getNome());
+		cliente.setIdade(clienteDTO.getIdade());
+		return cliente;
+	}
+	
+	private Optional<ClienteDTO> convertFrom(Optional<Cliente> cliente) {
+		
+		if (cliente.isPresent()) {
+			return Optional.of(convertFrom(cliente.get()));
+		}
+		
+		return Optional.empty();
 	}
 
 }

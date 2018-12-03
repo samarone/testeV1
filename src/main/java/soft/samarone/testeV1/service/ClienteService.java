@@ -1,5 +1,6 @@
 package soft.samarone.testeV1.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -16,25 +17,55 @@ import soft.samarone.testeV1.repository.ClienteRepository;
 
 @Service
 public class ClienteService {
-
+	
 	private final Logger LOG = LoggerFactory.getLogger(ClienteService.class);
+
+	private static final String GEO_DEFAULT = "0,0";
+
+	private static final double TEMP_MAX_DEFAULT = 0.0;
+
+	private static final double TEMP_MIN_DEFAULT = 0.0;
+
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private GeolocalizacaoService geoService;
 
-	public Cliente save(@Valid Cliente novoCliente) {
-		clienteRepository.save(novoCliente);
+	@Autowired
+	private PrevisaoService previsaoService;
+	
+	public Cliente save(@Valid Cliente cliente) {
+		
+		cliente.setGeoLocalizacao(GEO_DEFAULT);
+		cliente.setTempMin(TEMP_MIN_DEFAULT);
+		cliente.setTempMax(TEMP_MAX_DEFAULT);
+		
+		cliente = geoService.handleCliente(cliente);
+		cliente = previsaoService.handleCliente(cliente);
+		
+		cliente.setCriadoEm(LocalDateTime.now());
+
+		cliente = clienteRepository.save(cliente);
 		LOG.info("Cliente {} salvo com sucesso!");
-		return novoCliente;
+		
+		return cliente;
 	}
 
 	public Optional<Cliente> update(@Valid Cliente cliente) {
+		
 		Optional<Cliente> recuperado = clienteRepository.findById(cliente.getId());
+		
 		if (recuperado.isPresent()) {
+			
 			LOG.info("Cliente de ID: {} encontrado: {}", recuperado.get().getId(), recuperado.get());
-			Cliente atualizado = clienteRepository.save(cliente);
+			recuperado.get().setNome(cliente.getNome());
+			recuperado.get().setIdade(cliente.getIdade());
+			Cliente atualizado = clienteRepository.save(recuperado.get());
 			LOG.info("Cliente {} atualizado com sucesso!", atualizado);
 			return Optional.of(atualizado);
+			
 		}
 		return Optional.empty();
 	}
