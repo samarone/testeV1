@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="now" value="now()" dbms="h2" />
+	<property name="now" value="current_timestamp"
+		dbms="postgresql" />
+
+	<changeSet id="00000000000000" author="samarone">
+		<createSequence sequenceName="hibernate_sequence"
+			startValue="1000" incrementBy="50" />
+	</changeSet>
+
+	<changeSet id="00000000000001" author="samarone">
+		<createTable tableName="tb_clientes">
+			<column name="cd_seq_id" type="bigint"
+				autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="nm_nome" type="varchar(100)" />
+			<column name="nr_idade" type="int(3)" />
+			<column name="nm_ip" type="varchar(50)" />
+			<column name="nm_geolocalizacao" type="varchar(256)" />
+			<column name="nr_temp_min" type="int(4)" />
+			<column name="nr_temp_max" type="int(4)" />
+			<column name="ts_criado_em" type="timestamp"
+				defaultValueDate="${now}">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+	</changeSet>
+</databaseChangeLog>
