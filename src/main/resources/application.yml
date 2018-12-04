@@ -13,11 +13,16 @@ spring:
         database: H2
         open-in-view: false
         show-sql: false
+        properties:
+            hibernate:
+                temp:
+                    use_jdbc_metadata_defaults: false
     hibernate:
         cache:
 #Enable 2level cache hibernate
-            use_second_level_cache:true
-                region.factory_class:org.hibernate.cache.ehcache.EhCacheRegionFactory
+            use_second_level_cache: true
+            region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+            
 server:
     port: ${PORT:8080}
 
