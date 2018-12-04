@@ -20,7 +20,7 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
     public Docket apiMonitoramento() { 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()                                  
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("soft.samarone.testeV1.web.rest"))
                 .paths(PathSelectors.any())                          
                 .build()    
                 .apiInfo(apiInfo());

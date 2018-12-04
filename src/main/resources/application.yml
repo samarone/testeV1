@@ -25,6 +25,11 @@ spring:
             
 server:
     port: ${PORT:8080}
+    
+logging:
+    level:
+        org.springframework.web: DEBUG
+        soft.samarone.testeV1.web.rest: DEBUG
 
 #ip:
 #    client:
