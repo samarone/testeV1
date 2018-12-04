@@ -51,6 +51,10 @@ http://localhost:8080/swagger-ui.html
 ```
 Abra seu navegador e aponte para essa url. Através da swagger-ui será possivel conhecer todos os endpoints e também a estrutura deste, assim como testar as chamadas e seus resultados.
 
+## Documentação da API
+
+Usando Spring Rest Docs foi gerado um html com a documentação de utilização da api, tal arquivo se encontra na raíz do projeto com nomde de [api-guide.html](api-guide.html) , abra-o em seu ambiente de desenvolvimento usando seu navegador preferido.
+
 ## Colocando em Produção
 
 O projeto por ter a estrutura de **Spring-Boot** pode ser implantado na maioria dos provedores do mercado, tais como: AWS, Heroku, OpenShift, Cloud Foundry entre outros. Mas pelo natureza esperimental foi decidido disponibilizar o passo a passo de como implementar no Heroku em detalhes e também como uma imagem docker para que possa ser usada em outros provedores que suportem.
