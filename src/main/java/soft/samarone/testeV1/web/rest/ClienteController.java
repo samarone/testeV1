@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -72,12 +74,18 @@ public class ClienteController {
 	}
 
 	@GetMapping("/clientes")
-	public ResponseEntity<List<Cliente>> listaClientes(@RequestParam("page") int pageIndex,
+	public ResponseEntity<List<ClienteDTO>> listaClientes(@RequestParam("page") int pageIndex,
 			@RequestParam("size") int pageSize) {
 		LOG.info("REST request para recuperar todos os clientes com paginação");
 		Page<Cliente> page = clienteService.findAll(PageRequest.of(pageIndex, pageSize));
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/clientes");
-		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+
+		List<ClienteDTO> dtoList = page.getContent().stream().map(c -> new ClienteDTO(c.getNome(), c.getIdade()))
+				.collect(Collectors.toList());
+
+		Page<ClienteDTO> dtoPage = new PageImpl<ClienteDTO>(dtoList);
+
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(dtoPage, "/api/clientes");
+		return new ResponseEntity<>(dtoPage.getContent(), headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/clientes/{id}")
@@ -97,7 +105,7 @@ public class ClienteController {
 		
 		Optional<ClienteDTO> resultDTO = convertFrom(result);
 		
-		return ResponseUtil.wrapOrNotFound(resultDTO, HeaderUtil.createEntityUpdateAlert("CLIENTE", id.toString()));
+		return ResponseUtil.wrapOrNotFound(resultDTO, HeaderUtil.createEntityDeletionAlert("CLIENTE", id.toString()));
 	}
 
 	

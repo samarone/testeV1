@@ -1,9 +1,23 @@
 package soft.samarone.testeV1.web.rest.dto;
 
+import java.io.Serializable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ClienteDTO {
+public class ClienteDTO implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
+	public ClienteDTO() {
+		super();
+	}
+
+	public ClienteDTO(@NotNull @Size(max = 100) String nome, @NotNull Integer idade) {
+		super();
+		this.nome = nome;
+		this.idade = idade;
+	}
 	
 	private Long id;
 

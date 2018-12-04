@@ -1,7 +1,6 @@
 package soft.samarone.testeV1.service;
 
 import static soft.samarone.testeV1.Constants.GEO_DEFAULT;
-import static soft.samarone.testeV1.Constants.LOOPBACK_IP;
 import static soft.samarone.testeV1.Constants.TEMP_MAX_DEFAULT;
 import static soft.samarone.testeV1.Constants.TEMP_MIN_DEFAULT;
 

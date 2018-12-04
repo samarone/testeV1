@@ -22,8 +22,25 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+    public Cliente() {
+		super();
+	}
 
-    @Id
+	public Cliente(@NotNull @Size(max = 100) String nome, @NotNull Integer idade,
+			@NotNull @Size(max = 50) String ip, @NotNull String geoLocalizacao, @NotNull Double tempMin,
+			@NotNull Double tempMax, @NotNull LocalDateTime criadoEm) {
+		super();
+		this.nome = nome;
+		this.idade = idade;
+		this.ip = ip;
+		this.geoLocalizacao = geoLocalizacao;
+		this.tempMin = tempMin;
+		this.tempMax = tempMax;
+		this.criadoEm = criadoEm;
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "CD_SEQ_ID")
 	private Long id;
