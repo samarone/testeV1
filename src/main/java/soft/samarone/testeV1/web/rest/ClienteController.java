@@ -79,7 +79,7 @@ public class ClienteController {
 		LOG.info("REST request para recuperar todos os clientes com paginação");
 		Page<Cliente> page = clienteService.findAll(PageRequest.of(pageIndex, pageSize));
 
-		List<ClienteDTO> dtoList = page.getContent().stream().map(c -> new ClienteDTO(c.getNome(), c.getIdade()))
+		List<ClienteDTO> dtoList = page.getContent().stream().map(c -> new ClienteDTO(c.getId(), c.getNome(), c.getIdade()))
 				.collect(Collectors.toList());
 
 		Page<ClienteDTO> dtoPage = new PageImpl<ClienteDTO>(dtoList);

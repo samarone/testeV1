@@ -12,6 +12,13 @@ public class ClienteDTO implements Serializable {
 	public ClienteDTO() {
 		super();
 	}
+	
+	public ClienteDTO(Long id, @NotNull @Size(max = 100) String nome, @NotNull Integer idade) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.idade = idade;
+	}
 
 	public ClienteDTO(@NotNull @Size(max = 100) String nome, @NotNull Integer idade) {
 		super();
