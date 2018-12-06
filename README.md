@@ -57,7 +57,7 @@ Usando Spring Rest Docs foi gerado um html com a documentação de utilização 
 
 ## Colocando em Produção
 
-O projeto por ter a estrutura de **Spring-Boot** pode ser implantado na maioria dos provedores do mercado, tais como: AWS, Heroku, OpenShift, Cloud Foundry entre outros. Mas pelo natureza esperimental foi decidido disponibilizar o passo a passo de como implementar no Heroku em detalhes e também como uma imagem docker para que possa ser usada em outros provedores que suportem.
+O projeto por ter a estrutura de **Spring-Boot** pode ser implantado na maioria dos provedores do mercado, tais como: AWS, Heroku, OpenShift, Cloud Foundry entre outros. Mas pelo natureza experimental foi decidido disponibilizar o passo a passo de como implementar no Heroku em detalhes e também como uma imagem docker para que possa ser usada em outros provedores que suportem.
 
 ### Heroku
 
@@ -94,7 +94,7 @@ $ heroku config:set SPRING_PROFILES_ACTIVE=prd
 Setting SPRING_PROFILES_ACTIVE and restarting ⬢ <SEU_PREFIXO>-teste-v1... done, v5
 SPRING_PROFILES_ACTIVE: prd 
 ```
-4. Agora devemos enviar o código da nossa aplicação diretamente para o remote heroku configurado anterioremente:
+4. Agora devemos enviar o código da nossa aplicação diretamente para o remote heroku configurado anteriormente:
 ```
 $ git push heroku master
 ```
