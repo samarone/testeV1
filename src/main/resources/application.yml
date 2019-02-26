@@ -1,5 +1,6 @@
 spring:
     liquibase:
+        enabled: ${APP_LIQUIBASE_ENABLED:false}
 #Configure liquibase default changelog
         change-log: classpath:db/changelog/liquibase-changeLog.xml
     datasource:
