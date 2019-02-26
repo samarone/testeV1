@@ -1,21 +1,18 @@
 spring:
     liquibase:
-        enabled: ${APP_LIQUIBASE_ENABLED:false}
 #Configure liquibase default changelog
         change-log: classpath:db/changelog/liquibase-changeLog.xml
     datasource:
-        driver-class-name: org.postgresql.Driver
-        url: jdbc:${SPRING_DATASOURCE_URL}?createDatabaseIfNotExist=true
-        username: ${SPRING_DATASOURCE_USERNAME}
-        password: ${SPRING_DATASOURCE_PASSWORD}
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:h2:mem:gf;DB_CLOSE_DELAY=-1
+        name:
+        username:
+        password:
     jpa:
-        hibernate:
-            ddl-auto: none
-            show-sql: false
-            database: postgresql
-            database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-            open-in-view: false
-            generate-ddl: false
+        database-platform: org.hibernate.dialect.H2Dialect
+        database: H2
+        open-in-view: false
+        show-sql: false
         properties:
             hibernate:
                 temp:
