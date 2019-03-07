@@ -14,7 +14,7 @@ Segue então o passo a passo de como rodar o projeto em seu ambiente de desenvol
 4. Docker 18.06.1-ce ou superior **(Opcional)**
 5. Heroku CLI 7.18.10 ou superior **(Opcional)**
 
-Ou itens 4 e 5 serão usados para deploy na nuvem, caso não seja o objetivo, não se faz necessário a instalação dos mesmos.
+Os itens 4 e 5 serão usados para deploy na nuvem, caso não seja o objetivo, não se faz necessário a instalação dos mesmos.
 
 ### Obtendo os fontes
 
