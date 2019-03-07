@@ -85,7 +85,7 @@ $ heroku config
 === <SEU_PREFIXO>-teste-v1 Config Vars
 DATABASE_URL: postgres://pmupewqnwvgjkq:6a1452d3014c56d938e3a5bf44d9f0f300d1cc805347e5e2f2d3440755ee240d@ec2-107-21-125-209.compute-1.amazonaws.com:5432/dnn93f7mrc72f
 ```
-Obs: Quando o heroku provisiona uma base para a aplicação, automaticamente são registradas três variáveis dentro do ambiente da aplicação, são elas: SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, SPRING_DATASOURCE_PASSWORD, ver uso [application-prd.yml](src/main/resources/application-prd.yml)
+Obs: Quando o heroku provisiona uma base para a aplicação, automaticamente é registrado uma variável dentro do ambiente da aplicação: DATABASE_URL, ver uso em [application-prd.yml](src/main/resources/application-prd.yml)
 
 3. Devemos configurar agora um variável de ambiente dentro da aplicação para que possa ser usada uma base PostgreSQL:
 Spring Profile Active
