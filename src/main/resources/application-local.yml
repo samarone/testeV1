@@ -1,7 +1,6 @@
 spring:
 
-    profiles:
-        active: local
+    profiles: local
 
 # Database
     datasource:
@@ -13,8 +12,8 @@ spring:
     jpa:
         hibernate:
           ddl-auto: none
-          show-sql: true
-          database: postgresql
-          database-platform: org.hibernate.dialect.PostgreSQLDialect
-          open-in-view: false
-          generate-ddl: false
+        show-sql: true
+        database: postgresql
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        open-in-view: false
+        generate-ddl: false
