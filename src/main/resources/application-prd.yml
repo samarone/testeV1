@@ -7,8 +7,6 @@ spring:
     datasource:
         driver-class-name: org.postgresql.Driver
         url: jdbc:${$DATASOURCE_URL}?createDatabaseIfNotExist=true
-#        username: ${SPRING_DATASOURCE_USERNAME}
-#        password: ${SPRING_DATASOURCE_PASSWORD}
 # JPA properties
     jpa:
         hibernate:
